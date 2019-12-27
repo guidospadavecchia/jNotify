@@ -50,7 +50,7 @@
         top: -17px;
         width: 16px;
         height: 16px;
-        background: url(images/close.png) no-repeat center;
+        background: url('images/close.png') no-repeat center;
         border-radius: 5px;
         border: 1px #2f2f2f solid;
         cursor: pointer;
