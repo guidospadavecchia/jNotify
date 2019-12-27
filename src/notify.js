@@ -51,7 +51,7 @@ if (!Array.prototype.find) {
         warning: 'warning',
         info: 'info',
         error: 'error',
-        default: 'default',
+        default: 'default'
     }
 
     let _notificationColors = {
@@ -172,7 +172,11 @@ if (!Array.prototype.find) {
         /**
          * Indica si se debe mostrar el botón para cerrar la notificación.
          * */
-        closeButton: false
+        closeButton: false,
+        /**
+        * Indica si el título se tiene que mostrar en negrita.
+        * */
+        titleBold: true
     }
 
     $.notify = {
@@ -192,6 +196,10 @@ if (!Array.prototype.find) {
                 $divNotify.find(".close").on("click", function () {
                     _onClose($divNotify);
                 });
+            }
+
+            if (options.titleBold == false) {
+                $divNotify.find(".message").css('font-weight', 'normal');
             }
 
             if (typeof options.type != 'undefined' && options.type != null) {
@@ -232,6 +240,16 @@ if (!Array.prototype.find) {
                             _onClose($divNotify);
                         });
                     }, options.delay);
+                });
+            }
+        },
+
+        _removeAll: function (fadeOutDelay) {
+            for (let i = 0; i < jnotifyCollection.length; i++) {
+                let divElement = jnotifyCollection[i].element;
+                let fadeDelay = typeof fadeOutDelay != 'undefined' && fadeOutDelay != null ? fadeOutDelay : 1000;
+                divElement.fadeOut(fadeOutDelay, function onFadeOut() {                    
+                    _onClose(divElement);
                 });
             }
         }
@@ -279,6 +297,14 @@ if (!Array.prototype.find) {
     jNotify.push = function (message, description, options) {
         let mergedOptions = _mergeOptions(message, description, notifyOptions, options);
         $.notify._push(mergedOptions);
+    }
+
+    /**
+     * Limpia todas las notificaciones activas de la página actual.
+     * @param {any} fadeOutDelay Tiempo en milisegundos que tardará la notificación en desaparecer.
+     */
+    jNotify.clear = function (fadeOutDelay) {
+        $.notify._removeAll(fadeOutDelay);
     }
 
 })(jQuery);
