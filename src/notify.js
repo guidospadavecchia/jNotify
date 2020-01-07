@@ -196,6 +196,11 @@ if (!Array.prototype.find) {
                 $divNotify.find(".close").on("click", function () {
                     _onClose($divNotify);
                 });
+                $divNotify.on('mousedown', function (e) {
+                    if (e.which === 2) {
+                        _onClose($divNotify);
+                    }
+                });
             }
 
             if (options.titleBold == false) {
