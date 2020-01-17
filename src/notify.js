@@ -45,6 +45,12 @@ if (!Array.prototype.find) {
     const DIV_NOTIFY_CLOSE_BUTTON = '<div class="close"></div>';
     const INITIAL_OFFSET = 45;
     const NOTIFICATION_SEPARATION = 5;
+    const DEFAULT_MESSAGE = '';
+    const DEFAULT_DESCRIPTION = '';
+    const DEFAULT_DELAY = 2500;
+    const DEFAULT_FADEDELAY = 1000;
+    const DEFAULT_SHOW_CLOSE_BUTTON = false;
+    const DEFAULT_TITLE_BOLD = true;
 
     let _notificationTypes = {
         success: 'success',
@@ -79,13 +85,12 @@ if (!Array.prototype.find) {
         return element.outerHeight() + NOTIFICATION_SEPARATION;
     }
 
-    _calculateTotalOffset = function () {
-        let totalHeight = INITIAL_OFFSET;
+    _calculateTotalOffset = function (offset) {
+        let totalHeight = offset;
         $(".jnotify").each(function () {
             totalHeight += _getElementHeight($(this));
-            // Para hacer que la notificación salga abajo, y deje la más vieja arriba hay que poner:
-            // totalHeight -= _getElementHeight($(this));
-            // Y luego desplazar todas hacia arriba.
+            //To invert the order of the notification (first below), change this for:            
+            // totalHeight -= _getElementHeight($(this));            
         });
         return totalHeight;
     }
@@ -152,19 +157,19 @@ if (!Array.prototype.find) {
         /**
          * Titulo de la notificación.
          * */
-        message: '',
+        message: DEFAULT_MESSAGE,
         /**
          * Mensaje de la notificación.
          * */
-        description: '',
+        description: DEFAULT_DESCRIPTION,
         /**
          * Indica cuanto durará la notificación antes de desaparecer.
          * */
-        delay: 1500,
+        delay: DEFAULT_DELAY,
         /**
          * Indica cuanto durará la transición al aparecer y desaparecer la notificación.
          * */
-        fadeDelay: 1000,
+        fadeDelay: DEFAULT_FADEDELAY,
         /**
          * Tipo de notificación (cambia el color de fondo e icono).
          * */
@@ -172,11 +177,15 @@ if (!Array.prototype.find) {
         /**
          * Indica si se debe mostrar el botón para cerrar la notificación.
          * */
-        closeButton: false,
+        closeButton: DEFAULT_SHOW_CLOSE_BUTTON,
         /**
         * Indica si el título se tiene que mostrar en negrita.
         * */
-        titleBold: true
+        titleBold: DEFAULT_TITLE_BOLD,
+        /**
+         * Indica el desplazamiento de alto opcional, en píxeles, desde la parte inferior de la ventana.
+         * */
+        offset: INITIAL_OFFSET
     }
 
     $.notify = {
@@ -189,7 +198,7 @@ if (!Array.prototype.find) {
                 $divNotify = $(_formatString(DIV_NOTIFY_DESCRIPTION, options.message, options.description));
             }
 
-            $divNotify.css({ bottom: _calculateTotalOffset() });
+            $divNotify.css({ bottom: _calculateTotalOffset(options.offset) });
 
             if (options.closeButton == true) {
                 $divNotify.find(".message-container").append(DIV_NOTIFY_CLOSE_BUTTON);
@@ -253,7 +262,7 @@ if (!Array.prototype.find) {
             for (let i = 0; i < jnotifyCollection.length; i++) {
                 let divElement = jnotifyCollection[i].element;
                 let fadeDelay = typeof fadeOutDelay != 'undefined' && fadeOutDelay != null ? fadeOutDelay : 1000;
-                divElement.fadeOut(fadeOutDelay, function onFadeOut() {                    
+                divElement.fadeOut(fadeOutDelay, function onFadeOut() {
                     _onClose(divElement);
                 });
             }
