@@ -43,7 +43,7 @@ if (!Array.prototype.find) {
     const DIV_NOTIFY = '<div class="jnotify"><div class="message-container"><div class="icon"></div><div class="message">{0}</div></div></div>';
     const DIV_NOTIFY_DESCRIPTION = '<div class="jnotify"><div class="message-container"><div class="icon"></div><div class="message">{0}</div></div><div class="description">{1}</div></div>';
     const DIV_NOTIFY_CLOSE_BUTTON = '<div class="close"></div>';
-    const INITIAL_OFFSET = 45;
+    const INITIAL_OFFSET = 40;
     const NOTIFICATION_SEPARATION = 5;
     const DEFAULT_MESSAGE = '';
     const DEFAULT_DESCRIPTION = '';
