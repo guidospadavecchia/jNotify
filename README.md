@@ -5,3 +5,5 @@ The lightweight &amp; customizable javascript notification library.
 - Customize your notifications including appearance, timing, close button &amp; more.
 - Integrate easily to your existing application.
 - Cross-browser compatibility.
+
+*Requires Jquery > 1.4
