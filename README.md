@@ -1,5 +1,5 @@
 # jNotify
-The lightweight &amp; customizable notification library.
+The lightweight &amp; customizable javascript notification library.
 
 - Send notifications with simple functions.
 - Customize your notifications including appearance, timing, close button &amp; more.
