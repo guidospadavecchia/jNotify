@@ -6,4 +6,4 @@ The lightweight &amp; customizable javascript notification library.
 - Integrate easily to your existing application.
 - Cross-browser compatibility.
 
-*Requires Jquery > 1.4
+*Requires JQuery > 1.4
