@@ -1,6 +1,6 @@
 ﻿let jnotifyCollection = [];
 
-//Compatibilidad con IE
+//Internet Explorer Compatibility
 if (!Array.prototype.find) {
     Object.defineProperty(Array.prototype, 'find', {
         value: function (predicate) {
@@ -33,9 +33,6 @@ if (!Array.prototype.find) {
     });
 }
 
-/**
- * Clase para el envío de notificaciones push.
- * */
 (function ($) {
 
     jNotify = window.jNotify || {};
@@ -68,9 +65,6 @@ if (!Array.prototype.find) {
         default: { text: 'white', background: '#343A40', backgroundTitle: '#1F2326' }
     }
 
-    /**
-     * Concatena cadenas con varios parámetros. El primer parámetro es una cadena de string. Los demás parámetros son variables de cualquier tipo.
-     * */
     _formatString = function () {
         let cadena = arguments[0];
         for (let i = 0; i < arguments.length - 1; i++) {
@@ -155,35 +149,35 @@ if (!Array.prototype.find) {
 
     var notifyOptions = {
         /**
-         * Titulo de la notificación.
+         * Notification title.
          * */
         message: DEFAULT_MESSAGE,
         /**
-         * Mensaje de la notificación.
+         * Notification message.
          * */
         description: DEFAULT_DESCRIPTION,
         /**
-         * Indica cuanto durará la notificación antes de desaparecer.
+         * Notification delay before dissapearing.
          * */
         delay: DEFAULT_DELAY,
         /**
-         * Indica cuanto durará la transición al aparecer y desaparecer la notificación.
+         * Fade-in and fade-out transition delay.
          * */
         fadeDelay: DEFAULT_FADEDELAY,
         /**
-         * Tipo de notificación (cambia el color de fondo e icono).
+         * Notification type (indicates color and icon).
          * */
         type: _notificationTypes.default,
         /**
-         * Indica si se debe mostrar el botón para cerrar la notificación.
+         * Indicates whether a close button must be rendered on the notification.
          * */
         closeButton: DEFAULT_SHOW_CLOSE_BUTTON,
         /**
-        * Indica si el título se tiene que mostrar en negrita.
+        * Indicates whether the title must be displayed in bold.
         * */
         titleBold: DEFAULT_TITLE_BOLD,
-        /**
-         * Indica el desplazamiento de alto opcional, en píxeles, desde la parte inferior de la ventana.
+        /**         
+         * Offset heigth in pixels from bottom.
          * */
         offset: INITIAL_OFFSET
     }
@@ -261,16 +255,16 @@ if (!Array.prototype.find) {
         _removeAll: function (fadeOutDelay) {
             for (let i = 0; i < jnotifyCollection.length; i++) {
                 let divElement = jnotifyCollection[i].element;
-                let fadeDelay = typeof fadeOutDelay != 'undefined' && fadeOutDelay != null ? fadeOutDelay : 1000;
-                divElement.fadeOut(fadeOutDelay, function onFadeOut() {
+                let fadeDelay = fadeOutDelay || DEFAULT_FADEDELAY;
+                divElement.fadeOut(fadeDelay, function onFadeOut() {
                     _onClose(divElement);
                 });
             }
         }
     }
 
-    /**
-     * Envía una notificación push de éxito con el titulo, mensaje y opciones especificadas.
+    /**     
+     * Pushes a success notification.
      * */
     jNotify.success = function (message, description, options) {
         let mergedOptions = _mergeOptions(message, description, notifyOptions, options);
@@ -279,7 +273,7 @@ if (!Array.prototype.find) {
     }
 
     /**
-     * Envía una notificación push de información con el titulo, mensaje y opciones especificadas.
+     * Pushes an information notification.
      * */
     jNotify.info = function (message, description, options) {
         let mergedOptions = _mergeOptions(message, description, notifyOptions, options);
@@ -288,7 +282,7 @@ if (!Array.prototype.find) {
     }
 
     /**
-     * Envía una notificación push de advertencia con el titulo, mensaje y opciones especificadas.
+     * Pushes a warning notification.
      * */
     jNotify.warning = function (message, description, options) {
         let mergedOptions = _mergeOptions(message, description, notifyOptions, options);
@@ -297,7 +291,7 @@ if (!Array.prototype.find) {
     }
 
     /**
-     * Envía una notificación push de error con el titulo, mensaje y opciones especificadas.
+     * Pushes an error notification.
      * */
     jNotify.error = function (message, description, options) {
         let mergedOptions = _mergeOptions(message, description, notifyOptions, options);
@@ -306,7 +300,7 @@ if (!Array.prototype.find) {
     }
 
     /**
-     * Envía una notificación push con el titulo, mensaje y opciones especificadas.
+     * Pushes a default notification. Notification type can be passed as an option.
      * */
     jNotify.push = function (message, description, options) {
         let mergedOptions = _mergeOptions(message, description, notifyOptions, options);
@@ -314,8 +308,8 @@ if (!Array.prototype.find) {
     }
 
     /**
-     * Limpia todas las notificaciones activas de la página actual.
-     * @param {any} fadeOutDelay Tiempo en milisegundos que tardará la notificación en desaparecer.
+     * Clears all active notifications with the specified fade-out delay.
+     * @param {any} fadeOutDelay Fade-out transition time in miliseconds.
      */
     jNotify.clear = function (fadeOutDelay) {
         $.notify._removeAll(fadeOutDelay);
